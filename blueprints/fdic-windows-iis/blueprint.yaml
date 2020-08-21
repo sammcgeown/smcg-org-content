@@ -1,0 +1,39 @@
+formatVersion: 1
+name: FDIC - Windows IIS Server
+version: 1
+inputs:
+  SelectCloud:
+    type: string
+    enum:
+      - Azure
+      - AWS
+      - vSphere
+    default: Azure
+  user:
+    type: string
+    title: Username for SSH
+    description: The username you would like to usee for admin.
+    default: Administrator
+  password:
+    type: string
+    pattern: '[a-z0-9A-Z@#$]+'
+    encrypted: true
+    default: VMware1!
+    title: Admin Account Password
+    description: The password you would like to use for the ocuser account.
+resources:
+  IIS_Server:
+    type: Cloud.Machine
+    properties:
+      image: Windows2016
+      flavor: Medium
+      remoteAccess:
+        authentication: usernamePassword
+        username: '${input.user}'
+        password: '${input.password}'
+      cloudConfig: |
+        #ps1_sysnative
+          New-Item $env:SystemDrive\powershell_multipart.txt -type file -ErrorAction SilentlyContinue
+          Install-WindowsFeature -name Web-Server -IncludeManagementTools
+      constraints:
+        - tag: '${"cloud:" + to_lower(input.SelectCloud)}'
