@@ -1,6 +1,6 @@
 formatVersion: 1
-name: FDIC - PKS Cluster On-demand
-version: 1
+name: PKS Cluster On-demand
+version: 2
 resources:
   Cloud_K8S_Cluster_1:
     type: Cloud.K8S.Cluster

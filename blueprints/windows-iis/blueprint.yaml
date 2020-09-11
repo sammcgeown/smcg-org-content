@@ -1,6 +1,6 @@
 formatVersion: 1
-name: FDIC - Windows IIS Server
-version: 2
+name: Windows IIS Server
+version: 3
 inputs:
   SelectCloud:
     type: string
