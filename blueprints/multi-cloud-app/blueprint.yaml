@@ -1,0 +1,25 @@
+name: Multi-cloud App
+version: 1
+formatVersion: 1
+inputs: {}
+resources:
+  DbBackEnd:
+    type: Cloud.Machine
+    properties:
+      image: '[Packer] centos8'
+      flavor: medium
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
+  WebFrontEnd:
+    type: Cloud.Machine
+    dependsOn:
+      - DbBackEnd
+    properties:
+      image: '[Packer] centos8'
+      flavor: medium
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
+  Cloud_Network_1:
+    type: Cloud.Network
+    properties:
+      networkType: existing
