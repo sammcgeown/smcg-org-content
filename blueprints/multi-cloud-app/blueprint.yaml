@@ -1,15 +1,16 @@
 name: Multi-cloud App
-version: 1
+version: 2
 formatVersion: 1
 inputs: {}
 resources:
-  DbBackEnd:
-    type: Cloud.Machine
+  Cloud_LoadBalancer_1:
+    type: Cloud.LoadBalancer
     properties:
-      image: '[Packer] centos8'
-      flavor: medium
-      networks:
-        - network: '${resource.Cloud_Network_1.id}'
+      routes: []
+      network: '${resource.Cloud_Network_1.id}'
+      instances:
+        - '${resource.WebFrontEnd.id}'
+      internetFacing: false
   WebFrontEnd:
     type: Cloud.Machine
     dependsOn:
@@ -19,7 +20,16 @@ resources:
       flavor: medium
       networks:
         - network: '${resource.Cloud_Network_1.id}'
+      count: 3
+  DbBackEnd:
+    type: Cloud.Machine
+    properties:
+      image: '[Packer] centos8'
+      flavor: medium
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
   Cloud_Network_1:
     type: Cloud.Network
     properties:
       networkType: existing
+
