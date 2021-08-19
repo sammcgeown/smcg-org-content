@@ -1,0 +1,30 @@
+version: 1
+name: iac-template
+formatVersion: 1
+inputs:
+  vm_name:
+    type: string
+    title: VM Name
+  vm_template:
+    type: string
+    title: VM Template
+    oneOf:
+      - title: Ubuntu 18.04
+        const: '[Packer Test] Ubuntu1804'
+      - title: Ubuntu Bionic
+        const: ubuntu-bionic
+      - title: Ubuntu Xenial
+        const: ubuntu-xenial
+resources:
+  Cloud_Network_1:
+    type: Cloud.Network
+    properties:
+      networkType: existing
+  Cloud_Machine_1:
+    type: Cloud.Machine
+    properties:
+      name: '${input.vm_name}'
+      image: '${input.vm_template}'
+      flavor: medium
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
