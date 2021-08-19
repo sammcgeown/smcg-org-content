@@ -1,10 +1,13 @@
-version: 1 
-name: iac-template
+version: 2 # version of the Cloud Template
+name: iac-template # name of the Cloud Template
 formatVersion: 1
 inputs:
   vm_name:
     type: string
     title: VM Name
+  vm_count:
+    type: integer
+    default: 1
   vm_template:
     type: string
     title: VM Template
@@ -24,6 +27,7 @@ resources:
     type: Cloud.Machine
     properties:
       name: '${input.vm_name}'
+      count: ${input.vm_count}
       image: '${input.vm_template}'
       flavor: medium
       networks:
